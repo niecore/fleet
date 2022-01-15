@@ -1,0 +1,11 @@
+- name: Install usbrelay
+  become: yes
+  apt:
+    name: usbrelay
+    state: present
+
+- name: Copy udev rules for usb relay
+  become: yes
+  copy:
+    src: 50-usbrelay.rules
+    dest: /etc/udev/rules.d/    

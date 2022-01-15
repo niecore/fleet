@@ -1,0 +1,8 @@
+---
+- name: initial bus rpi
+  hosts: "bus-rpi"
+  vars_files:
+    - "vars.yml"
+  roles:
+    - usbrelay
+    - docker

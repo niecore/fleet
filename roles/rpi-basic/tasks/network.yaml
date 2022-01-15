@@ -1,0 +1,36 @@
+- name: Set a hostname
+  become: yes
+  command: hostnamectl set-hostname "{{inventory_hostname}}"
+
+- name: Install network manager
+  become: true
+  apt:
+    name: network-manager
+    state: present
+
+# see https://gist.github.com/truh/de723a3bc0f837f75d3673ddf101e108 and
+# https://raspberrypi.stackexchange.com/a/73816/137489
+- name: Uninstall openresolv and dhcpcd5
+  become: true
+  apt:
+    pkg:
+    - openresolve
+    - dhcpcd5
+    state: absent
+    purge: yes
+
+- name: Start and enable NM
+  ansible.builtin.systemd:
+    name: NetworkManager
+    state: started     
+    enabled: true      
+
+- name: Configure network
+  become: true
+  community.general.nmcli:
+    state: present
+    conn_name: ethernet-connection
+    ifname: eth0
+    type: ethernet
+    ip4: "{{ static_ip }}/24"
+    gw4: "{{ gateway }}"

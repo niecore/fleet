@@ -1,0 +1,7 @@
+---
+- name: initial rpi setup
+  hosts: '{{ host }}'
+  vars_files:
+    - "vars.yml"
+  roles:
+    - rpi-basic

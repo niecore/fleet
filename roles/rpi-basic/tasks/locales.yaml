@@ -1,0 +1,27 @@
+- name: Install essential packages
+  become: yes
+  apt:
+    pkg:
+    - git
+
+- name: Set timezone to Europe/Amsterdam (CEST)
+  become: yes
+  # src is real file, dest is the symbolic link
+  file:
+    src=/usr/share/zoneinfo/Europe/Amsterdam
+    dest=/etc/localtime
+    owner=root
+    group=root
+    state=link
+    force=yes
+
+# Ensure a locale exists.
+- name: Ensure locales exist
+  become: yes
+  locale_gen:
+    name={{ item }}
+    state=present
+  with_items:
+     - en_US.UTF-8
+     - en_GB.UTF-8
+     - nl_NL.UTF-8

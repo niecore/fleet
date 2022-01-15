@@ -1,0 +1,13 @@
+- name: Create password for user
+  become: yes
+  user:
+    name: "pi"
+    password: "{{ passwd_hashed }}"
+    update_password: always
+
+- name: Set authorized ssh keys
+  become: yes
+  authorized_key:
+    user: "pi"
+    key: "{{ authorized_keys|map(attribute='sshkey')|join('\n') }}"
+    exclusive: true

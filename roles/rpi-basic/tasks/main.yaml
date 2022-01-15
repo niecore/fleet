@@ -1,0 +1,8 @@
+- include_tasks: roles/rpi-basic/tasks/apt.yaml
+- include_tasks: roles/rpi-basic/tasks/locales.yaml
+- include_tasks: roles/rpi-basic/tasks/user.yaml
+- include_tasks: roles/rpi-basic/tasks/network.yaml
+
+- name: Reboot target
+  become: yes
+  reboot:
